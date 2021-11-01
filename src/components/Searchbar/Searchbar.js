@@ -32,9 +32,10 @@ export default function Searchbar({ onSubmit }) {
   return (
     <div className={style.Searchbar}>
       <form className={style.SearchForm} onSubmit={handleSubmit}>
-        <button className={style.SearchButton} type="submit">
+        <button className={style.SearchForm_button} type="submit">
           <span>
             <ImSearch />
+            <span className={style.SearchImg}>Search</span>
           </span>
         </button>
 

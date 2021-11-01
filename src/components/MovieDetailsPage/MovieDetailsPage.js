@@ -8,9 +8,9 @@ import {
   useLocation,
 } from 'react-router-dom';
 import * as MovieApiServise from '../../servises/MovieApiServise';
-
 import Loader from 'react-loader-spinner';
-// import style from "./MoviesPage.module.css";
+import notFound from '../../images/NotFound.png';
+import style from './MovieDetailsPage.module.css';
 
 const Cast = lazy(() => import('../Cast/Cast' /*webpackChunkName: "cast" */));
 const Reviews = lazy(() =>
@@ -38,32 +38,34 @@ export default function MovieDetailsPage() {
     <>
       {movie && (
         <>
-          <button type="button" onClick={onGoBack}>
-            go back
+          <button className={style.Button} type="button" onClick={onGoBack}>
+            Go Back
           </button>
 
-          <div>
-            <div>
-              <div>
+          <div className={style.MovieDetailsPage}>
+            <div className={style.MovieDetails}>
+              <div className={style.MovieDetails_img}>
                 <img
                   src={
                     movie.poster_path ? (
                       `https://www.themoviedb.org/t/p/w300${movie.poster_path}`
                     ) : (
-                      <h2>Not Found</h2>
+                      <img src={notFound} alt="Not Found" />
                     )
                   }
                   alt={movie.title}
                 />
               </div>
-              <div>
-                <h2>{`${movie.title} (${movie.release_date.slice(0, 4)})`}</h2>
+              <div className={style.Information}>
+                <h2 className={style.Information_title}>{`${
+                  movie.title
+                } (${movie.release_date.slice(0, 4)})`}</h2>
                 <span>{`User score: ${Math.trunc(
                   movie.vote_average * 10,
                 )}%`}</span>
-                <h2>Overview:</h2>
+                <h2 className={style.Information_title}>Overview:</h2>
                 <p>{movie.overview}</p>
-                <h2>Genres:</h2>
+                <h2 className={style.Information_title}>Genres:</h2>
                 <span>{movie.genres.map(({ name }) => name).join(', ')}</span>
               </div>
             </div>
@@ -96,7 +98,12 @@ export default function MovieDetailsPage() {
 
             <Suspense
               fallback={
-                <Loader type="Circles" color="#00BFFF" height={80} width={80} />
+                <Loader
+                  type="Circles"
+                  color="#00BFFF"
+                  height={100}
+                  width={100}
+                />
               }
             >
               <Route path={`${url}/cast`}>

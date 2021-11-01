@@ -1,4 +1,9 @@
-.link {
+.Navigation {
+  display: flex;
+  justify-content: center;
+}
+
+.Link {
   display: inline-block;
   text-decoration: none;
   padding: 12px;
@@ -7,7 +12,6 @@
   font-size: 18px;
 }
 
-.activeLink {
-  composes: link;
+.ActiveLink {
   color: #2196f3;
 }

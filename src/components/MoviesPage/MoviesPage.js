@@ -4,6 +4,7 @@ import { useRouteMatch, useHistory, useLocation } from 'react-router-dom';
 import Searchbar from '../Searchbar';
 import MovieList from '../MovieList';
 import * as MovieApiServise from '../../servises/MovieApiServise';
+import notFound from '../../images/NotFound.png';
 // import { toast } from 'react-toastify';
 // import style from './MoviesPage.module.css';
 
@@ -47,7 +48,7 @@ export default function MoviesPage() {
         (movies.length ? (
           <MovieList location={location} movies={movies} url={url} />
         ) : (
-          <p>Not found {`${query}`}</p>
+          <img src={notFound} alt="Not Found" />
         ))}
     </>
   );

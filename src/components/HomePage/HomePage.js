@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as MovieApiServise from '../../servises/MovieApiServise';
 import MovieList from '../../components/MovieList';
-// import style from "./HomePage.module.css";
+import style from './HomePage.module.css';
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
@@ -15,9 +15,11 @@ export default function HomePage() {
 
   return (
     <>
-      <h2>Populars today</h2>
+      <div className={style.HomePage}>
+        <h2 className={style.Title}>Popular movies today</h2>
 
-      {movies && <MovieList movies={movies} url={'/movies'} />}
+        {movies && <MovieList movies={movies} url={'/movies'} />}
+      </div>
     </>
   );
 }
