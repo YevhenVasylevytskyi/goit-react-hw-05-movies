@@ -1,27 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as MovieApiServise from '../../servises/MovieApiServise';
+import MovieList from '../../components/MovieList';
+// import style from "./HomePage.module.css";
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
 
-  fetch(
-    'https://api.themoviedb.org/3/trending/movie/day?api_key=fe0d397e19456f05f6bf4b38d9ef121b&language=en&page=1&include_adult=false',
-  )
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-    })
-    .then(response => setMovies(response.results))
-    .catch(error => console.warn(error));
+  useEffect(() => {
+    MovieApiServise.fetchPopularMovies().then(response =>
+      setMovies(response.results),
+    );
+  }, []);
+  // console.log(movies);
 
   return (
     <>
-      <h1>Popular movies</h1>
-      <ul>
-        {movies.map(movie => {
-          return <li key={movie.id}>{movie.title}</li>;
-        })}
-      </ul>
+      <h2>Populars today</h2>
+
+      {movies && <MovieList movies={movies} url={'/movies'} />}
     </>
   );
 }

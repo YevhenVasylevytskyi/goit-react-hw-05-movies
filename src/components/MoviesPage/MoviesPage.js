@@ -1,70 +1,54 @@
 import React from 'react';
-import { useState } from 'react';
-import { ImSearch } from 'react-icons/im';
-import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
+import { useRouteMatch, useHistory, useLocation } from 'react-router-dom';
+import Searchbar from '../Searchbar';
+import MovieList from '../MovieList';
+import * as MovieApiServise from '../../servises/MovieApiServise';
+// import { toast } from 'react-toastify';
 // import style from './MoviesPage.module.css';
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
+  const history = useHistory();
+  const location = useLocation();
+  const { url } = useRouteMatch();
 
-  const handleSearchInput = event => {
-    setQuery(event.currentTarget.value.trim().toLocaleLowerCase());
-  };
+  useEffect(() => {
+    const searchQuery = new URLSearchParams(location.search).get('query');
 
-  const handleSubmit = event => {
-    event.preventDefault();
-
-    if (query.trim() === '') {
-      toast.error('Введите название картинки');
+    if (searchQuery === null) {
       return;
     }
 
-    fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=fe0d397e19456f05f6bf4b38d9ef121b&query=${query}&include_adult=false`,
-    )
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then(response => setMovies(response.results))
-      .catch(error => console.warn(error));
+    setQuery(searchQuery);
+  }, [location.search]);
 
-    toast.success('Приятного просмотра');
+  useEffect(() => {
+    if (!query) {
+      return;
+    }
 
-    setQuery('');
+    MovieApiServise.fetchSearchMovies(query).then(response =>
+      setMovies(response.results),
+    );
+  }, [query]);
+
+  const handleSubmit = value => {
+    setQuery(value);
+    history.push({ ...location, search: `query=${value}` });
   };
 
   return (
     <>
-      <h1>Search movies</h1>
+      <Searchbar onSubmit={handleSubmit} />
 
-      <form onSubmit={handleSubmit}>
-        <button type="submit">
-          <span>
-            <ImSearch />
-            Search
-          </span>
-        </button>
-
-        <input
-          // className={style.SearchForm_input}
-          name="query"
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search movies"
-          value={query}
-          onChange={handleSearchInput}
-        />
-      </form>
-
-      <ul>
-        {movies.map(movie => {
-          return <li key={movie.id}>{movie.title}</li>;
-        })}
-      </ul>
+      {movies &&
+        (movies.length ? (
+          <MovieList location={location} movies={movies} url={url} />
+        ) : (
+          <p>Not found {`${query}`}</p>
+        ))}
     </>
   );
 }
