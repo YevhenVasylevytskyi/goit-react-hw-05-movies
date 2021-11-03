@@ -1,0 +1,13 @@
+.Cast {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.Item {
+  margin: 10px;
+}
+
+.Title {
+  max-width: 185px;
+}

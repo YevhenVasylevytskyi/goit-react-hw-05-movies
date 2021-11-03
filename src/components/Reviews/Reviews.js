@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as MovieApiServise from '../../servises/MovieApiServise';
-// import style from './Reviews.module.css';
+import style from './Reviews.module.css';
 
 export default function Reviews({ movieId }) {
   const [reviews, setReviews] = useState(null);
@@ -16,7 +16,7 @@ export default function Reviews({ movieId }) {
       {reviews && (
         <div>
           {reviews.length > 0 ? (
-            <ul>
+            <ul className={style.Link}>
               {reviews.map(({ author, content, id }) => (
                 <li key={id}>
                   <h3>Author: {author}</h3>

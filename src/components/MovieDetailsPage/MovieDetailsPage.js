@@ -73,7 +73,7 @@ export default function MovieDetailsPage() {
             <div>
               <h3>Additional information</h3>
               <ul>
-                <li>
+                <li className={style.Link}>
                   <Link
                     to={{
                       pathname: `${url}/cast`,
@@ -83,7 +83,7 @@ export default function MovieDetailsPage() {
                     Cast
                   </Link>
                 </li>
-                <li>
+                <li className={style.Link}>
                   <Link
                     to={{
                       pathname: `${url}/reviews`,
