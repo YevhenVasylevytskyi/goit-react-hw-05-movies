@@ -31,7 +31,20 @@ export default function MovieDetailsPage() {
   }, [movieId]);
 
   const onGoBack = () => {
+    if (
+      history.location.pathname.includes('cast') ||
+      history.location.pathname.includes('reviews')
+    ) {
+      history.go(-2);
+      // history.push(history.location.state.slice(0, -5) ?? '/');
+      // history.push(location?.state?.from.slice(0, -5))
+      // console.log(history.location.pathname);
+      // console.log(history.state);
+    }
     history.push(location?.state?.from ?? '/');
+    // console.log(history);
+    // console.log(location.pathname.includes('cast' ?? 'reviews'));
+    // console.log(location.pathname.includes('reviews'));
   };
 
   return (
@@ -86,6 +99,7 @@ export default function MovieDetailsPage() {
                 <li className={style.Link}>
                   <Link
                     to={{
+                      // Route path:
                       pathname: `${url}/reviews`,
                       state: { from: location },
                     }}
